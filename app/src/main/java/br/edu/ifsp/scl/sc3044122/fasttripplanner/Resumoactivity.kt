@@ -107,4 +107,3 @@ class ResumoActivity : AppCompatActivity() {
         return String.format(Locale("pt", "BR"), "R$ %.2f", valor)
     }
 }
-}
