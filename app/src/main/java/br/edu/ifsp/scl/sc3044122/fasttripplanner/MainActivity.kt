@@ -1,4 +1,4 @@
-package br.edu.ifsp.scl.bes.prdm.sc3044122.fasttripplanner
+package br.edu.ifsp.scl.sc3044122.fasttripplanner
 
 import android.content.Intent
 import android.os.Bundle
