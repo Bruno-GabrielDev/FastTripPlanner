@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🏨 Opções da Viagem"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Hospedagem -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo de hospedagem:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgHospedagem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/rbEconomica"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Econômica (1.0x)"/>
+
+            <RadioButton
+                android:id="@+id/rbConforto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Conforto (1.5x)"/>
+
+            <RadioButton
+                android:id="@+id/rbLuxo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Luxo (2.2x)"/>
+        </RadioGroup>
+
+        <!-- Serviços -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Serviços adicionais:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <CheckBox
+            android:id="@+id/cbTransporte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🚕 Transporte (+ R$ 300)"/>
+
+        <CheckBox
+            android:id="@+id/cbAlimentacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🍽️ Alimentação (+ R$ 50/dia)"/>
+
+        <CheckBox
+            android:id="@+id/cbPasseios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎡 Passeios (+ R$ 120/dia)"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Botões -->
+        <Button
+            android:id="@+id/btnCalcular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💰 Calcular"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btnVoltar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⬅️ Voltar"/>
+
+    </LinearLayout>
+</ScrollView>
