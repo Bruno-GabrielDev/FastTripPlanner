@@ -81,3 +81,7 @@ app/src/main/
 - [x] RNF02: Código organizado e comentado
 - [x] RNF03: Boas práticas (companion object, validações)
 - [x] RNF04: README incluído
+
+## ▶️ Video demo
+
+-https://www.youtube.com/shorts/8DcSEt7ut8k?feature=share
