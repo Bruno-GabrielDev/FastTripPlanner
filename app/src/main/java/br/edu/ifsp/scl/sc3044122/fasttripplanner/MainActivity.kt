@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Tela 1 - Dados da Viagem
  * Coleta destino, número de dias e orçamento diário.
  * Valida os dados e envia para a Tela 2 via Intent.
+ * Preserva o estado dos campos na rotação via onSaveInstanceState.
  */
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +19,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etDias: EditText
     private lateinit var etOrcamento: EditText
     private lateinit var btnAvancar: Button
+
+    companion object {
+        const val EXTRA_DESTINO    = "extra_destino"
+        const val EXTRA_DIAS       = "extra_dias"
+        const val EXTRA_ORCAMENTO  = "extra_orcamento"
+
+        // Chaves para salvar o estado na rotação
+        private const val KEY_DESTINO   = "key_destino"
+        private const val KEY_DIAS      = "key_dias"
+        private const val KEY_ORCAMENTO = "key_orcamento"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +41,26 @@ class MainActivity : AppCompatActivity() {
         etOrcamento = findViewById(R.id.etOrcamento)
         btnAvancar  = findViewById(R.id.btnAvancar)
 
+        // Restaura o estado salvo antes da rotação (se existir)
+        savedInstanceState?.let {
+            etDestino.setText(it.getString(KEY_DESTINO, ""))
+            etDias.setText(it.getString(KEY_DIAS, ""))
+            etOrcamento.setText(it.getString(KEY_ORCAMENTO, ""))
+        }
+
         btnAvancar.setOnClickListener {
             validarEAvancar()
         }
+    }
+
+    /**
+     * Salva o conteúdo dos campos antes da rotação de tela.
+     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_DESTINO,   etDestino.text.toString())
+        outState.putString(KEY_DIAS,      etDias.text.toString())
+        outState.putString(KEY_ORCAMENTO, etOrcamento.text.toString())
     }
 
     /**
@@ -69,11 +98,5 @@ class MainActivity : AppCompatActivity() {
             putExtra(EXTRA_ORCAMENTO, orcamento)
         }
         startActivity(intent)
-    }
-
-    companion object {
-        const val EXTRA_DESTINO    = "extra_destino"
-        const val EXTRA_DIAS       = "extra_dias"
-        const val EXTRA_ORCAMENTO  = "extra_orcamento"
     }
 }
