@@ -10,10 +10,8 @@ import java.util.Locale
 /**
  * Tela 3 - Resumo da Viagem
  * Mostra todos os dados coletados e calcula o custo total.
- * Regras de cálculo:
- *   custoBase = dias * orçamento
- *   Multiplicador hospedagem: Econômica 1.0 | Conforto 1.5 | Luxo 2.2
- *   Extras: Transporte +R$300 | Alimentação +R$50/dia | Passeios +R$120/dia
+ * Se modo econômico ativo, exibe aviso e o orçamento já vem
+ * com 15% de desconto aplicado da Tela 2.
  */
 class ResumoActivity : AppCompatActivity() {
 
@@ -30,13 +28,14 @@ class ResumoActivity : AppCompatActivity() {
         btnReiniciar = findViewById(R.id.btnReiniciar)
 
         // Recupera dados das telas anteriores
-        val destino     = intent.getStringExtra(MainActivity.EXTRA_DESTINO) ?: ""
-        val dias        = intent.getIntExtra(MainActivity.EXTRA_DIAS, 0)
-        val orcamento   = intent.getDoubleExtra(MainActivity.EXTRA_ORCAMENTO, 0.0)
-        val hospedagem  = intent.getStringExtra(OpcoesActivity.EXTRA_HOSPEDAGEM) ?: ""
-        val transporte  = intent.getBooleanExtra(OpcoesActivity.EXTRA_TRANSPORTE, false)
-        val alimentacao = intent.getBooleanExtra(OpcoesActivity.EXTRA_ALIMENTACAO, false)
-        val passeios    = intent.getBooleanExtra(OpcoesActivity.EXTRA_PASSEIOS, false)
+        val destino       = intent.getStringExtra(MainActivity.EXTRA_DESTINO) ?: ""
+        val dias          = intent.getIntExtra(MainActivity.EXTRA_DIAS, 0)
+        val orcamento     = intent.getDoubleExtra(MainActivity.EXTRA_ORCAMENTO, 0.0)
+        val hospedagem    = intent.getStringExtra(OpcoesActivity.EXTRA_HOSPEDAGEM) ?: ""
+        val transporte    = intent.getBooleanExtra(OpcoesActivity.EXTRA_TRANSPORTE, false)
+        val alimentacao   = intent.getBooleanExtra(OpcoesActivity.EXTRA_ALIMENTACAO, false)
+        val passeios      = intent.getBooleanExtra(OpcoesActivity.EXTRA_PASSEIOS, false)
+        val modoEconomico = intent.getBooleanExtra(OpcoesActivity.EXTRA_MODO_ECONOMICO, false)
 
         // Calcula o custo total
         val custoTotal = calcularCusto(dias, orcamento, hospedagem, transporte, alimentacao, passeios)
@@ -48,18 +47,19 @@ class ResumoActivity : AppCompatActivity() {
             if (passeios)    add("Passeios")
         }.joinToString(", ").ifEmpty { "Nenhum" }
 
+        val modoEconomicoTexto = if (modoEconomico) "\n💰 Modo Econômico: ATIVO (15% de desconto)" else ""
+
         val resumo = """
             🌍 Destino: $destino
             📅 Dias: $dias
             💵 Orçamento diário: ${formatar(orcamento)}
             🏨 Hospedagem: $hospedagem
-            🎒 Serviços: $servicos
+            🎒 Serviços: $servicos$modoEconomicoTexto
         """.trimIndent()
 
         tvResumo.text = resumo
         tvTotal.text = "💰 Total da viagem: ${formatar(custoTotal)}"
 
-        // Botão reiniciar - volta para a Tela 1 limpando a pilha
         btnReiniciar.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -70,6 +70,7 @@ class ResumoActivity : AppCompatActivity() {
 
     /**
      * Aplica as regras de cálculo definidas na especificação.
+     * O orçamento já chega com o desconto de 15% aplicado se modo econômico ativo.
      */
     private fun calcularCusto(
         dias: Int,
@@ -79,10 +80,8 @@ class ResumoActivity : AppCompatActivity() {
         alimentacao: Boolean,
         passeios: Boolean
     ): Double {
-        // Base: dias * orçamento
         val custoBase = dias * orcamento
 
-        // Multiplicador de hospedagem
         val multiplicador = when (hospedagem) {
             "Econômica" -> 1.0
             "Conforto"  -> 1.5
@@ -92,7 +91,6 @@ class ResumoActivity : AppCompatActivity() {
 
         var total = custoBase * multiplicador
 
-        // Extras
         if (transporte)  total += 300.0
         if (alimentacao) total += 50.0 * dias
         if (passeios)    total += 120.0 * dias
@@ -100,9 +98,6 @@ class ResumoActivity : AppCompatActivity() {
         return total
     }
 
-    /**
-     * Formata valor em moeda brasileira (R$).
-     */
     private fun formatar(valor: Double): String {
         return String.format(Locale("pt", "BR"), "R$ %.2f", valor)
     }

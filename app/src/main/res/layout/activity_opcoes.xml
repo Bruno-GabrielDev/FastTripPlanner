@@ -80,6 +80,11 @@
             android:text="🎡 Passeios (+ R$ 120/dia)"
             android:layout_marginBottom="24dp"/>
 
+        <Switch
+            android:id="@+id/switchEconomico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <!-- Botões -->
         <Button
             android:id="@+id/btnCalcular"
@@ -93,6 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="⬅️ Voltar"/>
+
 
     </LinearLayout>
 </ScrollView>
